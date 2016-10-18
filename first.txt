@@ -1,0 +1,51 @@
+<div>
+  <ul class="nav nav-tabs" role="tablist" id="myTabs">
+    <li role="presentation" ng-repeat="(t, l) in tables" ng-class="{ active: isActive(t) }" >
+      <a ng-click="setActive(t)" aria-controls="{{t}}" role="tab">
+        {{ l }}
+      </a>
+    </li>
+  </ul>
+
+  <div ng-repeat="(t, l) in tables" ng-show="isActive(t)" id="{{t}}">
+      <sp-widget widget="c.data.lists[t]"></sp-widget>
+  </div>
+</div>
+
+----------------------------------------------------------
+
+function($scope, spUtil) {
+  /* widget controller */
+  var c = this;
+
+	$scope.tables = {
+		incident: 'Incidents',
+		problem: 'Problems'
+	};
+
+	$scope.setActive = function (t) {
+		$scope.active = t;
+	};
+	$scope.setActive('incident');
+
+
+	$scope.isHidden = function (t) {
+		return t !== $scope.active;
+	};
+
+	$scope.isActive = function (t) {
+		return t === $scope.active;
+	};
+}
+
+------------------------------------------
+
+(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	data.tables = {};
+	data.lists = {};
+
+	data.lists.incident = $sp.getWidget("widget-data-table", {table: 'incident'});
+	data.lists.problem = $sp.getWidget("widget-data-table", {table: 'problem'});
+})();

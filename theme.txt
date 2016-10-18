@@ -1,0 +1,2 @@
+link: #0083ae
+background: #000000

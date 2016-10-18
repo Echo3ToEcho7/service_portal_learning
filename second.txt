@@ -1,0 +1,40 @@
+function($scope, spUtil) {
+  /* widget controller */
+  var c = this;
+
+	$scope.tables = c.data.tables;
+
+	$scope.setActive = function (t) {
+		$scope.active = t;
+	};
+	$scope.setActive('incident');
+
+
+	$scope.isHidden = function (t) {
+		return t !== $scope.active;
+	};
+
+	$scope.isActive = function (t) {
+		return t === $scope.active;
+	};
+}
+
+----------------------------------------
+
+(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	data.tables = {};
+	data.lists = {};
+
+	var tables = options.tables || 'incident,problem';
+	var arr = tables.split(',');
+
+	arr.forEach(function (elt) {
+		var gr = new GlideRecord(elt);
+		data.tables[elt] = gr.getLabel();
+	});
+
+	data.lists.incident = $sp.getWidget("widget-data-table", {table: 'incident'});
+	data.lists.problem = $sp.getWidget("widget-data-table", {table: 'problem'});
+})();
